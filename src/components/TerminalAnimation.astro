@@ -47,16 +47,10 @@
     background: #002b36;
     padding: 0.8rem 0.95rem;
     height: 295px;
-    display: flex;
-    flex-direction: column;
+    overflow: hidden;
   }
 
   .t-hist {
-    flex: 1;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
     transition: opacity 0.25s ease;
   }
 
@@ -73,8 +67,6 @@
   .t-cur-line {
     display: flex;
     align-items: baseline;
-    flex-shrink: 0;
-    margin-top: 3px;
   }
 
   .t-sym { color: #268bd2; margin-right: 0.35em; flex-shrink: 0; }
@@ -84,7 +76,6 @@
     color: #268bd2;
     animation: t-blink 1.1s step-end infinite;
     margin-left: 1px;
-    flex-shrink: 0;
   }
 
   @keyframes t-blink {
@@ -108,16 +99,10 @@
     </div>
     <div class="t-body">
       <div class="t-hist" id="t-hist"></div>
-      <div class="t-cur-line">
-        <span class="t-sym">$</span>
-        <span class="t-in" id="t-in"></span>
-        <span class="t-cur">▊</span>
-      </div>
     </div>
   `;
 
-  const hist  = document.getElementById('t-hist') as HTMLElement;
-  const input = document.getElementById('t-in')  as HTMLElement;
+  const hist = document.getElementById('t-hist') as HTMLElement;
 
   const MAX_ROWS = 13;
   const sleep = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
@@ -128,16 +113,17 @@
       lines: [
         { text: 'sui-runner helps you set up, build, and manage', cls: 't-out' },
         { text: 'projects on the Sui blockchain.', cls: 't-out' },
+        { text: 'Run any subcommand with --help for detailed usage.', cls: 't-out' },
         { text: '', cls: 't-out' },
         { text: 'Usage: sui-runner [OPTIONS] <COMMAND>', cls: 't-out' },
         { text: '', cls: 't-out' },
         { text: 'Commands:', cls: 't-out' },
         { text: '  init       Initialise a new Sui project', cls: 't-out' },
-        { text: '  check      Check required tools are installed', cls: 't-out' },
+        { text: '  check      Check that required tools are installed', cls: 't-out' },
         { text: '  wallet     Manage Sui wallets', cls: 't-out' },
         { text: '  build      Compile (or test) a Move package', cls: 't-out' },
         { text: '  dashboard  Live TUI dashboard', cls: 't-out' },
-        { text: '  deploy     Deploy a Move package to the network', cls: 't-out' },
+        { text: '  deploy     Deploy or Publish a Move package', cls: 't-out' },
         { text: '', cls: 't-out' },
         { text: 'Options:', cls: 't-out' },
         { text: '  -v, --verbose   Enable verbose output', cls: 't-out' },
@@ -148,13 +134,13 @@
     {
       cmd: 'sui-runner check',
       lines: [
-        { text: 'Checking required tools...', cls: 't-out'     },
-        { text: '',                           cls: 't-out'     },
-        { text: '  [ok]  sui',               cls: 't-out-ok'  },
-        { text: '  [ok]  git',               cls: 't-out-ok'  },
-        { text: '  [ok]  cargo',             cls: 't-out-ok'  },
-        { text: '',                           cls: 't-out'     },
-        { text: 'All tools found.',           cls: 't-out-ok'  },
+        { text: 'Checking required tools...', cls: 't-out'    },
+        { text: '',                           cls: 't-out'    },
+        { text: '  [ok]  sui',               cls: 't-out-ok' },
+        { text: '  [ok]  git',               cls: 't-out-ok' },
+        { text: '  [ok]  cargo',             cls: 't-out-ok' },
+        { text: '',                           cls: 't-out'    },
+        { text: 'All tools found.',           cls: 't-out-ok' },
       ],
     },
     {
@@ -168,14 +154,18 @@
     },
   ];
 
+  function trimHist() {
+    while (hist.children.length > MAX_ROWS) {
+      hist.removeChild(hist.firstElementChild as Element);
+    }
+  }
+
   function addRow(text: string, cls: string) {
     const el = document.createElement('div');
     el.className = `t-row ${cls}`;
     el.textContent = text;
     hist.appendChild(el);
-    while (hist.children.length > MAX_ROWS) {
-      hist.removeChild(hist.firstElementChild as Element);
-    }
+    trimHist();
   }
 
   async function clearHist() {
@@ -186,21 +176,27 @@
   }
 
   async function runSequence(seq: typeof sequences[0]) {
+    // Add the active typing line at the current position (top if hist is empty)
+    const activeLine = document.createElement('div');
+    activeLine.className = 't-cur-line';
+    activeLine.innerHTML = '<span class="t-sym">$</span><span class="t-in"></span><span class="t-cur">▊</span>';
+    hist.appendChild(activeLine);
+    trimHist();
+
+    const activeInput = activeLine.querySelector('.t-in') as HTMLElement;
+
+    // Type command character by character
     for (const ch of seq.cmd) {
-      input.textContent += ch;
+      activeInput.textContent += ch;
       await sleep(55 + Math.random() * 25);
     }
     await sleep(380);
 
-    const row = document.createElement('div');
-    row.className = 't-row t-row-prompt';
-    row.innerHTML = `<span class="t-p-sym">$</span> <span class="t-p-cmd">${seq.cmd}</span>`;
-    hist.appendChild(row);
-    while (hist.children.length > MAX_ROWS) {
-      hist.removeChild(hist.firstElementChild as Element);
-    }
-    input.textContent = '';
+    // Freeze the active line as a history row
+    activeLine.className = 't-row t-row-prompt';
+    activeLine.innerHTML = `<span class="t-p-sym">$</span> <span class="t-p-cmd">${seq.cmd}</span>`;
 
+    // Stream output lines
     for (const line of seq.lines) {
       addRow(line.text, line.cls);
       await sleep(42);
