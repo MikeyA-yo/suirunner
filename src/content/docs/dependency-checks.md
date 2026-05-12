@@ -3,7 +3,7 @@ title: Dependency Checks
 description: How to verify your environment with Sui-runner.
 ---
 
-Sui-runner includes a `check` command that verifies all required tools are installed and accessible in your `PATH`.
+The `check` command verifies that all required tools are installed and accessible in your `PATH` before you start building.
 
 ## Usage
 
@@ -11,9 +11,31 @@ Sui-runner includes a `check` command that verifies all required tools are insta
 sui-runner check
 ```
 
-## What It Checks
+## Output
 
-The command runs each tool with its `--version` flag and reports the result:
+```
+Checking required tools...
+
+  [ok]  sui
+  [ok]  git
+  [ok]  cargo
+
+All tools found.
+```
+
+If a tool is missing it shows `[missing]` and exits with an error:
+
+```
+Checking required tools...
+
+  [ok]  sui
+  [missing]  git
+  [ok]  cargo
+
+Error: One or more required tools are missing. Install them and re-run.
+```
+
+## What It Checks
 
 | Tool | Why it's needed |
 |---|---|
@@ -21,36 +43,10 @@ The command runs each tool with its `--version` flag and reports the result:
 | `git` | Fetching Move package dependencies |
 | `cargo` | Rust toolchain, required if building from source |
 
-## Output
-
-A passing check looks like this:
-
-```
-[✓] sui
-[✓] git
-[✓] cargo
-```
-
-If a tool is missing it shows `[missing]` and the command exits with an error:
-
-```
-[missing] sui
-[✓] git
-[✓] cargo
-
-Error: One or more required tools are missing. Install them and re-run.
-```
-
 ## Verbose Mode
 
-Pass `-v` / `--verbose` to print the version string alongside each tool name:
+Pass `-v` / `--verbose` to print each tool's version string alongside its name:
 
 ```bash
-sui-runner check --verbose
-```
-
-```
-[✓] sui      sui 1.38.2
-[✓] git      git version 2.43.0
-[✓] cargo    cargo 1.78.0
+sui-runner check -v
 ```

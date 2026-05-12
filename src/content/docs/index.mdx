@@ -5,6 +5,8 @@ template: splash
 hero:
   title: Sui-runner
   tagline: A utility CLI for humans — set up, build, test, and manage Sui Move projects from your terminal.
+  image:
+    html: '<div id="hero-terminal"></div>'
   actions:
     - text: Get Started
       link: /installation/
@@ -17,6 +19,9 @@ hero:
 
 import { Card, CardGrid } from '@astrojs/starlight/components';
 import InstallCommand from '../../components/InstallCommand.astro';
+import TerminalAnimation from '../../components/TerminalAnimation.astro';
+
+<TerminalAnimation />
 
 ## Install
 
