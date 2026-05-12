@@ -1,14 +1,21 @@
 ---
+import { Code } from '@astrojs/starlight/components';
 ---
 
 <div class="install-cmd">
   <div data-os="unix">
-    <p class="install-cmd__label">Linux / macOS — bash</p>
-    <pre class="install-cmd__pre"><code>curl -fsSL https://sui-runner.dev/install.sh | bash</code></pre>
+    <Code
+      code="curl -fsSL https://suirunner.vercel.app/install.sh | bash"
+      lang="bash"
+      title="Linux / macOS"
+    />
   </div>
   <div data-os="windows" style="display:none">
-    <p class="install-cmd__label">Windows — PowerShell</p>
-    <pre class="install-cmd__pre"><code>irm https://sui-runner.dev/install.ps1 | iex</code></pre>
+    <Code
+      code="irm https://suirunner.vercel.app/install.ps1 | iex"
+      lang="powershell"
+      title="Windows — PowerShell"
+    />
   </div>
 </div>
 
@@ -24,26 +31,3 @@
     if (win)  win.style.display  = '';
   }
 </script>
-
-<style>
-  .install-cmd__label {
-    font-size: 0.75rem;
-    color: var(--sl-color-gray-3);
-    margin: 0 0 0.4rem 0;
-    font-family: var(--sl-font-mono, monospace);
-  }
-
-  .install-cmd__pre {
-    margin: 0;
-    padding: 0.85rem 1.1rem;
-    border: 1px solid var(--sl-color-gray-5);
-    border-radius: 0.5rem;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    overflow-x: auto;
-    font-family: var(--sl-font-mono, monospace);
-    font-size: 0.9rem;
-    line-height: 1.6;
-    background: var(--sl-color-bg-inline-code, #002b36);
-    color: var(--sl-color-white, #fdf6e3);
-  }
-</style>
