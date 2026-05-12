@@ -20,16 +20,6 @@ export default defineConfig({
 						{ label: 'Wallet Management', link: '/wallet' },
 					],
 				},
-				{
-					label: 'Guides',
-					items: [
-						{ label: 'Example Guide', link: '/guides/example' },
-					],
-				},
-				{
-					label: 'Reference',
-					items: [{ autogenerate: { directory: 'reference' } }],
-				},
 			],
 		}),
 	],
