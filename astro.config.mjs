@@ -6,14 +6,24 @@ import starlight from '@astrojs/starlight';
 export default defineConfig({
 	integrations: [
 		starlight({
-			title: 'My Docs',
-			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/withastro/starlight' }],
+			title: 'Sui-runner',
+			customCss: ['./src/styles/custom.css'],
+			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/your-repo/sui-runner' }],
 			sidebar: [
+				{
+					label: 'Getting Started',
+					items: [
+						{ label: 'Installation', link: '/installation' },
+						{ label: 'Watch Mode', link: '/watch-mode' },
+						{ label: 'Dependency Checks', link: '/dependency-checks' },
+						{ label: 'Live Dashboard', link: '/dashboard' },
+						{ label: 'Wallet Management', link: '/wallet' },
+					],
+				},
 				{
 					label: 'Guides',
 					items: [
-						// Each item here is one entry in the navigation menu.
-						{ label: 'Example Guide', slug: 'guides/example' },
+						{ label: 'Example Guide', link: '/guides/example' },
 					],
 				},
 				{

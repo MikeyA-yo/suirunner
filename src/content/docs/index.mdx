@@ -1,40 +1,46 @@
 ---
-title: Welcome to Starlight
-description: Get started building your docs site with Starlight.
-template: splash # Remove or comment out this line to display the site sidebar on this page.
+title: Sui-runner
+description: A setup and utility CLI for the Sui ecosystem.
+template: splash
 hero:
-  tagline: Congrats on setting up a new Starlight project!
-  image:
-    file: ../../assets/houston.webp
+  title: Sui-runner
+  tagline: A utility CLI for humans — set up, build, test, and manage Sui Move projects from your terminal.
   actions:
-    - text: Example Guide
-      link: /guides/example/
+    - text: Get Started
+      link: /installation/
       icon: right-arrow
-    - text: Read the Starlight docs
-      link: https://starlight.astro.build
+    - text: View on GitHub
+      link: https://github.com/MikeyA-yo/sui-runner
       icon: external
       variant: minimal
 ---
 
 import { Card, CardGrid } from '@astrojs/starlight/components';
+import InstallCommand from '../../components/InstallCommand.astro';
 
-## Next steps
+## Install
+
+<InstallCommand />
+
+## Commands
 
 <CardGrid stagger>
-	<Card title="Update content" icon="pencil">
-		Edit `src/content/docs/index.mdx` to see this page change.
+	<Card title="init" icon="rocket">
+		Scaffold a new Sui Move project — creates the package structure, a starter module, and a `sui-runner.json` config file.
 	</Card>
-	<Card title="Change page layout" icon="document">
-		Delete `template: splash` in `src/content/docs/index.mdx` to display a
-		sidebar on this page.
+	<Card title="check" icon="approve-check-circle">
+		Verify that `sui`, `git`, and `cargo` are installed and accessible before you start building.
 	</Card>
-	<Card title="Add new content" icon="add-document">
-		Add Markdown or MDX files to `src/content/docs` to create new pages.
+	<Card title="build" icon="setting">
+		Compile your Move package or run your test suite. Add `--watch` to rebuild automatically on file changes.
 	</Card>
-	<Card title="Configure your site" icon="setting">
-		Edit your `sidebar` and other config in `astro.config.mjs`.
+	<Card title="deploy" icon="up-caret">
+		Publish your Move package to the network with a single command. Gas budget and package path are configurable.
 	</Card>
-	<Card title="Read the docs" icon="open-book">
-		Learn more in [the Starlight Docs](https://starlight.astro.build/).
+	<Card title="wallet" icon="puzzle">
+		View your active address, list all keystore addresses, or create a new Ed25519 keypair.
+	</Card>
+	<Card title="dashboard" icon="laptop">
+		Open a live TUI showing your active address, connected network, and project info in real time.
 	</Card>
 </CardGrid>

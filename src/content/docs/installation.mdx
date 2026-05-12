@@ -1,0 +1,61 @@
+---
+title: Installation
+description: How to install Sui-runner.
+---
+
+import InstallCommand from '../../components/InstallCommand.astro';
+
+## One-line Install
+
+The fastest way to get started. The script auto-detects your OS and architecture, downloads the correct binary, and adds it to your `PATH`.
+
+<InstallCommand />
+
+After installation, open a new terminal (or reload your shell config) and verify:
+
+```bash
+sui-runner --help
+```
+
+## Prerequisites
+
+The install script only handles the `sui-runner` binary itself. You also need these tools in your `PATH`:
+
+| Tool | Why |
+|---|---|
+| [Sui CLI](https://docs.sui.io/guides/developer/getting-started/sui-install) | Required for all Move operations |
+| Git | Required for fetching Move package dependencies |
+| Cargo (Rust) | Required only if building from source |
+
+Run `sui-runner check` after installation to confirm everything is in place.
+
+## Manual Download
+
+Pre-built binaries are available on the [GitHub Releases page](https://github.com/MikeyA-yo/sui-runner/releases):
+
+| Platform | Asset |
+|---|---|
+| Linux x86_64 | `sui-runner-linux-x86_64.tar.gz` |
+| macOS ARM (Apple Silicon) | `sui-runner-macos-aarch64.tar.gz` |
+| macOS x86_64 | `sui-runner-macos-x86_64.tar.gz` |
+| Windows x86_64 | `sui-runner-windows-x86_64.zip` |
+
+**Linux / macOS**
+
+```bash
+tar -xzf sui-runner-<os>-<arch>.tar.gz
+sudo mv sui-runner /usr/local/bin/
+```
+
+**Windows**
+
+Extract the `.zip` and move `sui-runner.exe` to a directory on your `PATH`.
+
+## Build from Source
+
+```bash
+git clone https://github.com/MikeyA-yo/sui-runner.git
+cd sui-runner
+cargo build --release
+# binary: target/release/sui-runner
+```

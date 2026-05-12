@@ -1,0 +1,32 @@
+/* Custom Terminal Aesthetic for Sui-runner */
+
+:root {
+  --sl-color-accent-low: #002b36;
+  --sl-color-accent: #268bd2;
+  --sl-color-accent-high: #859900;
+}
+
+/* Dark mode by default */
+:root[data-theme='light'] {
+  --sl-color-bg: #002b36;
+  --sl-color-white: #fdf6e3;
+  --sl-color-gray-1: #eee8d5;
+  --sl-color-gray-2: #93a1a1;
+  --sl-color-gray-3: #839496;
+  --sl-color-gray-4: #657b83;
+  --sl-color-gray-5: #586e75;
+  --sl-color-gray-6: #073642;
+  --sl-color-black: #002b36;
+}
+
+/* Terminal-like code blocks */
+.expressive-code {
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  margin-top: 2rem !important;
+  margin-bottom: 2rem !important;
+}
+
+/* Add terminal window controls via pseudo-elements if possible, 
+   or just stick to a clean dark look for now as requested. */
