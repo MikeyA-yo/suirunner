@@ -19,6 +19,11 @@
   --sl-color-black: #002b36;
 }
 
+/* Push hero terminal below text on mobile (matches desktop order: 2 already set by Starlight) */
+.hero > .hero-html {
+  order: 2;
+}
+
 /* Terminal-like code blocks */
 .expressive-code {
   border: 1px solid var(--sl-color-gray-5);
